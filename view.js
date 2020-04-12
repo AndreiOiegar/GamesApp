@@ -9,23 +9,42 @@ function createDomElement(gameObj){
     var container1 = document.querySelector('.container');
     const gameELement = document.createElement("div");
     gameELement.className = "game-box";
-    const editForm = document.getElementById("updateForm");
+    gameELement.setAttribute("id", gameObj._id)
+
+    // const editForm = document.getElementById("updateForm");
     gameELement.innerHTML = `<h1>${gameObj.title}</h1> 
                         <img src="${gameObj.imageUrl}" />
                         <p>${gameObj.description}</p> 
                         <button class="delete-btn" id="${gameObj._id}">Delete Game</button>
                         <button class="update-btn" id="${gameObj._id}">Edit Game</button>`;    
 
-    
-    gameELement.appendChild(editForm);
-    container1.appendChild(gameELement);
-    
+    const updatedGameElement = document.createElement('div');
+    updatedGameElement.innerHTML = `<form id="updateForm">
+                                        <label for="gameTitle">Title *</label>
+                                        <input type="text"  name="gameTitle" id="gameTitle" value = "${gameObj.title}"/>
 
+                                        <label for="gameDescription">Description</label>
+                                        <textarea name="gameDescription" id="gameDescription">"${gameObj.description}"</textarea>
+
+                                        <label for="gameImageUrl">Image URL *</label>
+                                        <input type="text" name="gameImageUrl" id="gameImageUrl" value = "${gameObj.imageUrl}"/>
+
+                                        <button class="save-btn">Save Changes</button>
+                                        <button class="cancel-btn">Cancel</button>
+                                    </form> `
+
+
+
+    // gameELement.appendChild(editForm);
+    container1.appendChild(gameELement);
     document.getElementById(`${gameObj._id}`).addEventListener("click", function(event){
-        deleteGame(event.target.getAttribute("id"), function(apiResponse){
-            console.log(apiResponse);
-            removeDeletedElementFromDOM(event.target.parentElement);
-        })
+        if(event.target.classList.contains("delete-btn")){
+            deleteGame(event.target.getAttribute("id"), function(apiResponse){
+                    console.log(apiResponse);
+                    removeDeletedElementFromDOM(event.target.parentElement);})
+        } else if(event.target.classList.contains("update-btn")){
+            gameELement.appendChild(updatedGameElement);
+        }
     });
 }
 
@@ -99,9 +118,9 @@ document.querySelector(".submitBtn").addEventListener("click", function(event){
     }
 })
 
-document.querySelector(".updateBtn").addEventListener("click", function(event){
-    event.preventDefault();
+// document.querySelector(".updateBtn").addEventListener("click", function(event){
+//     event.preventDefault();
 
     
 
-})
+// })
