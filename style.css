@@ -5,12 +5,12 @@
 }
 
 body{
-    background-image: linear-gradient( to left, rgb(78, 230, 78), rgb(26, 92, 37)) ;
+    background-image: linear-gradient( to left, rgb(0, 0, 0), rgb(79, 125, 201)) ;
 }
 
 .game-box{
     background-color: #F9F9F9;
-    border: 5px solid rgb(15, 128, 15);
+    border: 5px solid #092970;
     border-radius: 20px;
     margin: 10px;
 }
@@ -62,14 +62,15 @@ button {
 }
 
 .creationForm {
-    background-color: #F9F9F9;
-    color: black;
+    background-color: #092970;
+    color: white;
     width: 900px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    border: 5px solid rgb(15, 128, 15);
+    border: 5px solid #092970;
     margin: 20px auto;
+    font-weight: 600;
 }
 
 .creationForm>label,
