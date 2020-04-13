@@ -11,41 +11,76 @@ function createDomElement(gameObj){
     gameELement.className = "game-box";
     gameELement.setAttribute("id", gameObj._id)
 
-    // const editForm = document.getElementById("updateForm");
+
     gameELement.innerHTML = `<h1>${gameObj.title}</h1> 
                         <img src="${gameObj.imageUrl}" />
                         <p>${gameObj.description}</p> 
                         <button class="delete-btn" id="${gameObj._id}">Delete Game</button>
                         <button class="update-btn" id="${gameObj._id}">Edit Game</button>`;    
 
-    const updatedGameElement = document.createElement('div');
-    updatedGameElement.innerHTML = `<form id="updateForm">
-                                        <label for="gameTitle">Title *</label>
-                                        <input type="text"  name="gameTitle" id="gameTitle" value = "${gameObj.title}"/>
 
-                                        <label for="gameDescription">Description</label>
-                                        <textarea name="gameDescription" id="gameDescription">"${gameObj.description}"</textarea>
+    const updatedGameElement = document.createElement('form');
+    updatedGameElement.id = "updateForm"
+    updatedGameElement.innerHTML = `
+                                        <label for="newGameTitle">Title *</label>
+                                        <input type="text"  name="newGameTitle" id="newGameTitle" value = "${gameObj.title}"/>
 
-                                        <label for="gameImageUrl">Image URL *</label>
-                                        <input type="text" name="gameImageUrl" id="gameImageUrl" value = "${gameObj.imageUrl}"/>
+                                        <label for="newGameDescription">Description</label>
+                                        <textarea name="newGameDescription" id="newGameDescription">"${gameObj.description}"</textarea>
+
+                                        <label for="newGameImageUrl">Image URL *</label>
+                                        <input type="text" name="newGameImageUrl" id="newGameImageUrl" value = "${gameObj.imageUrl}"/>
 
                                         <button class="save-btn">Save Changes</button>
                                         <button class="cancel-btn">Cancel</button>
-                                    </form> `
+                                    `;
 
 
 
-    // gameELement.appendChild(editForm);
     container1.appendChild(gameELement);
     document.getElementById(`${gameObj._id}`).addEventListener("click", function(event){
+
+        
         if(event.target.classList.contains("delete-btn")){
             deleteGame(event.target.getAttribute("id"), function(apiResponse){
                     console.log(apiResponse);
-                    removeDeletedElementFromDOM(event.target.parentElement);})
+                    const editForm = event.target.parentElement;
+                    removeDeletedElementFromDOM(editForm);
+                })
         } else if(event.target.classList.contains("update-btn")){
-            gameELement.appendChild(updatedGameElement);
+            const editForm = event.target.parentElement;
+            editForm.appendChild(updatedGameElement);
+        } else if(event.target.classList.contains('cancel-btn')){
+            const editForm = event.target.parentElement;
+            removeDeletedElementFromDOM(editForm);
+        } else if(event.target.classList.contains("save-btn")){
+            const editForm = event.target.parentElement;
+            event.preventDefault();
+            newGameVersion(editForm.parentElement);
+            removeDeletedElementFromDOM(editForm);
         }
     });
+}
+
+function newGameVersion(gameELement){
+    const updatedGameTitle = document.getElementById("newGameTitle").value;
+    const updatedGameDescription = document.getElementById("newGameDescription").value;
+    const updatedGameImageUrl = document.getElementById("newGameImageUrl").value;
+
+    gameELement.querySelector('h1').innerHTML = updatedGameTitle;
+    gameELement.querySelector('p').innerHTML = updatedGameDescription;
+    gameELement.querySelector('img').innerHTML = updatedGameImageUrl;
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("title", updatedGameTitle);
+    urlencoded.append("description", updatedGameDescription);
+    urlencoded.append("imageUrl", updatedGameImageUrl);
+
+    console.log(gameELement);
+    updateGameRequest(gameELement.getAttribute('id'), urlencoded, createDomElement);
+
+
+
 }
 
 function removeDeletedElementFromDOM(domElement){
@@ -118,9 +153,3 @@ document.querySelector(".submitBtn").addEventListener("click", function(event){
     }
 })
 
-// document.querySelector(".updateBtn").addEventListener("click", function(event){
-//     event.preventDefault();
-
-    
-
-// })

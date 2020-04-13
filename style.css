@@ -96,7 +96,7 @@ button {
     display: flex;
     align-items: center;
     color: white;
-    background-color: black;
+    background-color: #092970;
     border-radius: 20px;
 }
 
@@ -107,4 +107,23 @@ button {
  {
     display: block;
     margin: 5px 15px;
+}
+
+
+.save-btn{
+    background-image: linear-gradient( to left, rgb(78, 230, 78), rgb(26, 92, 37)) ;
+    border: none;
+    color: azure;
+    width: 120px;
+    height: 30px;
+    font-weight: 700;
+}
+
+.cancel-btn{
+    background-color: #e85023;
+    border: none;
+    color: azure;
+    width: 120px;
+    height: 30px;
+    font-weight: 700;
 }
