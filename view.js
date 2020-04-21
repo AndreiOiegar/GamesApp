@@ -1,9 +1,18 @@
 
-getGamesList(function(arrayOfGames){
+// getGamesList(function(arrayOfGames){
+//     for(var i = 0; i < arrayOfGames.length; i++) {
+//         createDomElement(arrayOfGames[i]);
+//     }
+// });
+
+
+getGamesList().then(arrayOfGames =>{
     for(var i = 0; i < arrayOfGames.length; i++) {
         createDomElement(arrayOfGames[i]);
     }
 });
+
+
 
 function createDomElement(gameObj){
     var container1 = document.querySelector('.container');
@@ -42,11 +51,18 @@ function createDomElement(gameObj){
 
         
         if(event.target.classList.contains("delete-btn")){
-            deleteGame(event.target.getAttribute("id"), function(apiResponse){
+        //     deleteGame(event.target.getAttribute("id"), function(apiResponse){
+        //             console.log(apiResponse);
+        //             const editForm = event.target.parentElement;
+        //             removeDeletedElementFromDOM(editForm);
+        //         })
+                deleteGame(event.target.getAttribute("id")).then( apiResponse => {
                     console.log(apiResponse);
                     const editForm = event.target.parentElement;
                     removeDeletedElementFromDOM(editForm);
                 })
+
+
         } else if(event.target.classList.contains("update-btn")){
             const editForm = event.target.parentElement;
             editForm.appendChild(updatedGameElement);
